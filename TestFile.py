@@ -20,6 +20,8 @@ class Library:
     def add_book(self, book):
         self.book_list.append(book)
 
+print("Doing a bit of testing real fast.")
+
     
 
 
