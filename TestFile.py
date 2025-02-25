@@ -1,6 +1,8 @@
 """
 
-Classes to work on: Library (with accompanying book class), Simple Game (if time)
+Library System:
+Design a Book class with attributes like title, author, isbn, and availability.
+Create a Library class that can add, remove, and search for books, and manage book loans.
 """
 
 
@@ -21,6 +23,13 @@ class Library:
     def add_book(self, book):
         self.book_list.append(book)
 
+    def remove_book(self, title):
+        for book in self.book_list:
+            if(book.title == title):
+                self.book_list.remove(book)
+                print(f"Removed {book.title}")
+                break
+
     def describe_books(self):
         print("LIBRARY::")
         for book in self.book_list:
@@ -32,14 +41,6 @@ class Library:
         for book in self.loan_list:
             print(f"Title: {book.title}, Author: {book.author}, ISBN: {book.isbn}")
         print("")
-
-
-    def remove_book(self, title):
-        for book in self.book_list:
-            if(book.title == title):
-                self.book_list.remove(book)
-                print(f"Removed {book.title}")
-                break
 
 
     #book_index is returned so search_book() can be easily used as the first step of taking out a loan. 
@@ -61,7 +62,18 @@ class Library:
             self.book_list[book_index].availability = False
             print(f"Checked out {self.book_list[book_index].title} by {self.book_list[book_index].author}")
             
-    #def return_loan(self)
+    def return_loan(self, title):
+        book_index = 0
+        for i in range(1, len(self.loan_list)):
+            if(self.loan_list[i].title == title):
+                book_index = i
+                #The book wasn't removed from the library list, so all we need to do is
+                #change its availability back to 'True'
+                #self.add_book(title)
+                self.loan_list.remove(i)
+                print(f"{title} has been returned from your loans")
+        if(book_index == 0):
+            print(f"{title} is not in your loans.")
 
 
 #MAIN
@@ -91,7 +103,11 @@ main_library.describe_loans()
 
 main_library.describe_books()
 
+main_library.return_loan("Black Holes")
+main_library.describe_loans()
 
-    
+main_library.describe_books()
+
+
 
 
