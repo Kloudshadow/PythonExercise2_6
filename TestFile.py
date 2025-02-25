@@ -33,22 +33,23 @@ class Library:
                 break
 
 
-    #book_present is returned so search_book() can be easily used as the first step of taking out a loan. 
+    #book_index is returned so search_book() can be easily used as the first step of taking out a loan. 
     def search_book(self, title):
-        book_present = False
-        for book in self.book_list:
-            if(book.title == title):
-                book_present = True
-                print(f"{title} is in the library system. Availability: {book.availability}")
-        if(book_present == False):
+        book_index = 0
+        for i in range(1, len(self.book_list)):
+            if(self.book_list[i].title == title):
+                book_index = i
+                print(f"{title} is in the library system. Availability: {self.book_list[i].availability}")
+        if(book_index == 0):
             print(f"{title} is not in the library system.")
 
-        return book_present
-
-    def take_loan(self, title)
-        if(self.search_book(title) == True):
-            self.loan_list.
-
+        return book_index
+    
+    def take_loan(self, title):
+        book_index = self.search_book(title)
+        if(book_index > 0):
+            self.loan_list.append(self.book_list[book_index])
+            
     #def return_loan(self)
 
 
