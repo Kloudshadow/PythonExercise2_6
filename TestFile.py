@@ -22,8 +22,17 @@ class Library:
         self.book_list.append(book)
 
     def describe_books(self):
+        print("LIBRARY::")
         for book in self.book_list:
             print(f"Title: {book.title}, Author: {book.author}, ISBN: {book.isbn}, Availability: {book.availability}")
+        print("")
+
+    def describe_loans(self):
+        print("LOANS::")
+        for book in self.loan_list:
+            print(f"Title: {book.title}, Author: {book.author}, ISBN: {book.isbn}")
+        print("")
+
 
     def remove_book(self, title):
         for book in self.book_list:
@@ -49,6 +58,8 @@ class Library:
         book_index = self.search_book(title)
         if(book_index > 0):
             self.loan_list.append(self.book_list[book_index])
+            self.book_list[book_index].availability = False
+            print(f"Checked out {self.book_list[book_index].title} by {self.book_list[book_index].author}")
             
     #def return_loan(self)
 
@@ -74,6 +85,12 @@ main_library.describe_books()
 
 main_library.search_book("The Lord of the Rings")
 main_library.search_book("Black Holes")
+
+main_library.take_loan("Black Holes")
+main_library.describe_loans()
+
+main_library.describe_books()
+
 
     
 
