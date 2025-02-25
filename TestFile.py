@@ -12,6 +12,9 @@ class Book:
         self.author = author
         self.isbn = isbn
         self.availability = availability
+            # A book has a library_index value that is assigned that holds its index in the book_list 
+            # of a certain library for easy accessibility. 
+        #self.library_index = 0
 
 
 
@@ -22,6 +25,7 @@ class Library:
 
     def add_book(self, book):
         self.book_list.append(book)
+        #book.library_index = len(self.book_list) - 1
 
     def remove_book(self, title):
         for book in self.book_list:
@@ -29,6 +33,7 @@ class Library:
                 self.book_list.remove(book)
                 print(f"Removed {book.title}")
                 break
+
 
     def describe_books(self):
         print("LIBRARY::")
@@ -40,18 +45,27 @@ class Library:
         print("LOANS::")
         for book in self.loan_list:
             print(f"Title: {book.title}, Author: {book.author}, ISBN: {book.isbn}")
-        print("")
+        #print("")
 
 
     #book_index is returned so search_book() can be easily used as the first step of taking out a loan. 
     def search_book(self, title):
-        book_index = 0
+        book_index = -1
         for i in range(1, len(self.book_list)):
             if(self.book_list[i].title == title):
                 book_index = i
                 print(f"{title} is in the library system. Availability: {self.book_list[i].availability}")
-        if(book_index == 0):
+        if(book_index == -1):
             print(f"{title} is not in the library system.")
+
+        return book_index
+    
+    #This function is very similar to 'search_book()', except print statements are removed. 
+    def get_library_index(self, title):
+        book_index = -1
+        for i in range(1, len(self.book_list)):
+            if(self.book_list[i].title == title):
+                book_index = i
 
         return book_index
     
@@ -63,16 +77,19 @@ class Library:
             print(f"Checked out {self.book_list[book_index].title} by {self.book_list[book_index].author}")
             
     def return_loan(self, title):
-        book_index = 0
-        for i in range(1, len(self.loan_list)):
+        #The "not present" value for loan_index must be -1, as 0 is a valid index. 
+        loan_index = -1
+        library_index = self.get_library_index(title)
+        for i in range(0, len(self.loan_list)):
             if(self.loan_list[i].title == title):
-                book_index = i
+                loan_index = i
                 #The book wasn't removed from the library list, so all we need to do is
                 #change its availability back to 'True'
                 #self.add_book(title)
-                self.loan_list.remove(i)
+                self.book_list[library_index].availability = True
+                self.loan_list.remove(self.loan_list[i])
                 print(f"{title} has been returned from your loans")
-        if(book_index == 0):
+        if(loan_index == -1):
             print(f"{title} is not in your loans.")
 
 
