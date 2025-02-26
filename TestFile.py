@@ -24,14 +24,26 @@ class Book:
 
 # Class for a collection of books in a library system from the perspective of a single user, allowing them to add and remove books from the library as well as simulate taking out loans.
 class Library:
+    #Name: __init__
+    #Purpose: __init__ creates a new library object with two empty lists, one intended to hold books in the library system, and the other intended to hold the books on loan to the user.
+    #Input: none
+    #Output: none
     def __init__(self):
         self.book_list = []
         self.loan_list = []
 
+    #Name: add_book
+    #Purpose: add_book add on a new book object to the end of the current library's book_list. 
+    #Input: Book object to be added
+    #Output: none
     def add_book(self, book):
         self.book_list.append(book)
         #book.library_index = len(self.book_list) - 1
 
+    #Name: remove_book
+    #Purpose: remove_book searches for any book with the provided title in the library's book_list and removes them.
+    #Input: String title of the book to be removed
+    #Output: Print statement displaying to the user the removed book. 
     def remove_book(self, title):
         for book in self.book_list:
             if(book.title == title):
@@ -39,13 +51,20 @@ class Library:
                 print(f"Removed {book.title}")
                 break
 
-
+    #Name: describe_books
+    #Purpose: describe_books prints out the attributes of each book in the library's book_list, allowing the user to see all books currently in the library system.
+    #Input: none
+    #Output: Print statements (one line for each book) of the title, author, isbn number, and availability of each book in the current book_list. 
     def describe_books(self):
         print("LIBRARY::")
         for book in self.book_list:
             print(f"Title: {book.title}, Author: {book.author}, ISBN: {book.isbn}, Availability: {book.availability}")
         print("")
 
+    #Name: describe_loans
+    #Purpose: describe_loans prints out the attributes (except availability) of each book in the library's loan_list, allowing the user to see all books they have checked out.
+    #Input: none
+    #Output: Print statements (one line for each book) of the title, author, and isbn number of each book in the current loan_list. 
     def describe_loans(self):
         print("LOANS::")
         for book in self.loan_list:
@@ -53,7 +72,10 @@ class Library:
         #print("")
 
 
-    #book_index is returned so search_book() can be easily used as the first step of taking out a loan. 
+    #Name: search_book
+    #Purpose: search_book checks the current book_list to see if a book by the specified title exists. If it does, the index of the book in book_list is returned, and if it does not -1 is returned. A print statement detailing whether the book is in the system is also run.
+    #Input: Title of book to check book_list for.
+    #Output: int book_index, print statement informing the user of the result of the check.
     def search_book(self, title):
         book_index = -1
         for i in range(0, len(self.book_list)):
@@ -63,9 +85,14 @@ class Library:
         if(book_index == -1):
             print(f"{title} is not in the library system.")
 
+            #book_index is returned so search_book() can be easily used as the first step of taking out a loan. 
         return book_index
     
-    #This function is very similar to 'search_book()', except print statements are removed. 
+    #Name: get_library_index
+    #Purpose: get_library_index checks the current book_list to see if a book by the specified title exists. If it does, the index of the book in book_list is returned, and if it does not -1 is returned. 
+    #Input: Title of book to check book_list for.
+    #Output: int book_index
+    #This function is very similar to 'search_book()', except print statements are removed. This is useful for minimizing clutter in the console. 
     def get_library_index(self, title):
         book_index = -1
         for i in range(1, len(self.book_list)):
