@@ -101,9 +101,16 @@ class Library:
 
         return book_index
     
-    #Need to check availability for take_loan
+
+    #Name: take_loan
+    #Purpose: Allows the user to check out one of the books, making it unavailable in the library system and adding it to the loan_list for
+        # the library class. 
+    #Input: String title of book to check out
+    #Output: print statement either printing information about the book that was checked out, or why the book couldn't be checked out.
     def take_loan(self, title):
+            #Gets the index of the desired book in the library's book_list, so information about the book can be referenced.
         book_index = self.search_book(title)
+            #If the book exists in the system and the book is available, then the checkout procedes
         if(book_index > 0 and self.book_list[book_index].availability == True):
             self.loan_list.append(self.book_list[book_index])
             self.book_list[book_index].availability = False
@@ -117,58 +124,59 @@ class Library:
 
         print("")
 
-            
+    #Name: return_loan
+    #Purpose: return_loan removes a book from loan_list and gives it back to the library, setting the availability of the book returned back to True
+    #Input: String title of book currently in loan_list to be returned.
+    #Output: Print statement either confirming the return or stating that the title entered isn't in the loan list. 
     def return_loan(self, title):
+        #loan_index is the index of the book being returned in loan_list, while library_index is the index of the same book in book_list. 
         #The "not present" value for loan_index must be -1, as 0 is a valid index. 
         loan_index = -1
         library_index = self.get_library_index(title)
         for i in range(0, len(self.loan_list)):
+                #If the book exists in the loan list, then make it available again in book_list and remove it from loan list
             if(self.loan_list[i].title == title):
                 loan_index = i
-                #The book wasn't removed from the library list, so all we need to do is
-                #change its availability back to 'True'
-                #self.add_book(title)
                 self.book_list[library_index].availability = True
                 self.loan_list.remove(self.loan_list[i])
                 print(f"{title} has been returned from your loans")
+            #If the book is not in loan_list, print a message telling the user
         if(loan_index == -1):
             print(f"{title} is not in your loans.")
         print("")
 
 
 #MAIN
-print("Doing a bit of testing real fast.")
-
+#Creates the library bobject
 main_library = Library()
 
+#Sets information for books
 book1 = Book("The Lord of the Rings", "Tolkien", 8991148177578, True)
 book2 = Book("I Cheerfully Refuse", "Enger", 4906172209419, False)
 book3 = Book("Black Holes", "Forshaw, Cox", 7672344800463, True)
 
+#Adds books to library
 main_library.add_book(book1)
 main_library.add_book(book2)
 main_library.add_book(book3)
 
-main_library.describe_books()
+#Tests removing books and searching the library
 
+main_library.describe_books()
 main_library.remove_book("The Lord of the Rings")
-
 main_library.describe_books()
-
 main_library.search_book("The Lord of the Rings")
 main_library.search_book("I Cheerfully Refuse")
 
+#Tests taking and returning loans from the library
+
 main_library.take_loan("Black Holes")
 main_library.describe_loans()
-
 print("Testing checking out an absent book:")
 main_library.take_loan("Black Holes")
-
 main_library.describe_books()
-
 main_library.return_loan("Black Holes")
 main_library.describe_loans()
-
 main_library.describe_books()
 
 
